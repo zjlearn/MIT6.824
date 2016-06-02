@@ -3,6 +3,13 @@ package mapreduce
 import (
 	"hash/fnv"
 )
+import (
+    "bufio"
+    "os"
+    "encoding/json"
+    "log"
+    "fmt"
+)
 
 // doMap does the job of a map worker: it reads one of the input files
 // (inFile), calls the user-defined map function (mapF) for that file's
@@ -40,7 +47,36 @@ func doMap(
 	//     err := enc.Encode(&kv)
 	//
 	// Remember to close the file after you have written all the values!
-}
+    
+    //zj: the code begin from there
+    inputFile, inputError := os.Open(inFile)
+    if inputError != nil{
+        fmt.Printf("An error occurred on opening the inFile\n")
+    }
+    scanner := bufio.NewScanner(inputFile)
+    for scanner.Scan() {
+        text=scanner.Text()
+        
+        //
+        keyValue :=mapF(inFile, text);
+        for _, kv in range(KeyValue){
+            reduceTaskNumber := ihash(kv.Key)
+            reduceFileName := reduceName(jobName, mapTaskNumber, re)  //reduceName is in the common.go
+            file := os.
+            enc := json.NewEncoder(file)
+            err := enc.Encode(&kv)
+            
+            /*for _, kv := ... {
+                err := enc.Encode(&kv)
+            }*/
+            
+        }
+    }
+    if err := scanner.Err(); err != nil{
+          //do nothing
+          fmt.Printf("scanner.Scan error occur!\n")
+    }
+ }
 
 func ihash(s string) uint32 {
 	h := fnv.New32a()

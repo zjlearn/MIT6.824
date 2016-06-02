@@ -30,5 +30,10 @@ func doReduce(
 	// for key in ... {
 	// 	enc.Encode(KeyValue{key, reduceF(...)})
 	// }
-	// file.Close()
+	//file.Close()
+    inputFile :=  reduceName(jobName, nMap, reduceTaskNumber)
+    
+    
+    
+    
 }
